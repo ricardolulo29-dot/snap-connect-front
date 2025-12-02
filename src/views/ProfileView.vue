@@ -284,31 +284,31 @@ onBeforeMount(async () => {
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label class="block text-gray-400 text-sm mb-2">Nombre</label>
-              <div class="bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white">
+              <label class="block text-gray-400 text-sm font-medium mb-2">Nombre</label>
+              <p class="text-white text-lg">
                 {{ profileData?.firstName || userStore.name || 'No especificado' }}
-              </div>
+              </p>
             </div>
 
             <div>
-              <label class="block text-gray-400 text-sm mb-2">Apellidos</label>
-              <div class="bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white">
+              <label class="block text-gray-400 text-sm font-medium mb-2">Apellidos</label>
+              <p class="text-white text-lg">
                 {{ profileData?.lastName || userStore.surname || 'No especificado' }}
-              </div>
+              </p>
             </div>
 
             <div>
-              <label class="block text-gray-400 text-sm mb-2">Email</label>
-              <div class="bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white">
+              <label class="block text-gray-400 text-sm font-medium mb-2">Email</label>
+              <p class="text-white text-lg">
                 {{ profileData?.email || userStore.email || 'No especificado' }}
-              </div>
+              </p>
             </div>
 
             <div>
-              <label class="block text-gray-400 text-sm mb-2">Username</label>
-              <div class="bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white">
+              <label class="block text-gray-400 text-sm font-medium mb-2">Username</label>
+              <p class="text-white text-lg">
                 @{{ profileData?.username || userStore.username || 'No especificado' }}
-              </div>
+              </p>
             </div>
           </div>
         </div>

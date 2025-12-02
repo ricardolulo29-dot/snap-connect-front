@@ -1,16 +1,12 @@
-<script setup lang="js">
+<script setup>
 import { RouterView, useRouter } from 'vue-router'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import {
-  faHome,
-  faUser,
-  faSignOutAlt,
-  faComments,
-
-} from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUser, faSignOutAlt, faComments } from '@fortawesome/free-solid-svg-icons'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
-import {  computed, onBeforeMount, onMounted, onUnmounted, watch } from 'vue'
+import { computed, onBeforeMount, onMounted, onUnmounted, watch } from 'vue'
 import { useUserStore } from '../store/user.store'
 import { jwtDecode } from 'jwt-decode'
 import { useRoute } from 'vue-router'
@@ -79,12 +75,15 @@ onUnmounted(() => {
 })
 
 // Recargar contador cuando se navega (especialmente al salir de chats)
-watch(() => route.path, (newPath, oldPath) => {
-  // Si venimos de la vista de chats, recargar el contador
-  if (oldPath === '/chats' || newPath === '/chats') {
-    loadUnreadCount()
+watch(
+  () => route.path,
+  (newPath, oldPath) => {
+    // Si venimos de la vista de chats, recargar el contador
+    if (oldPath === '/chats' || newPath === '/chats') {
+      loadUnreadCount()
+    }
   }
-})
+)
 </script>
 
 <template>
@@ -159,9 +158,43 @@ watch(() => route.path, (newPath, oldPath) => {
     </header>
 
     <!-- CONTENT -->
-    <main class="pt-[60px] md:pt-[90px] pb-[70px] md:pb-0 flex-1 flex flex-col overflow-y-auto">
+    <main
+      class="pt-[60px] md:pt-[90px] pb-[70px] md:pb-[100px] flex-1 flex flex-col overflow-y-auto"
+    >
       <router-view />
     </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="hidden md:block w-full bg-gray-900/90 backdrop-blur-md border-t border-indigo-500/20"
+    >
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0">
+          <p class="text-gray-400 text-sm">© 2025 SnapConnect - Todos los derechos reservados</p>
+          <div class="flex items-center space-x-4">
+            <span class="text-gray-400 text-sm">Desarrollado por Ricardo Luján Lorés</span>
+            <div class="flex items-center space-x-3">
+              <a
+                href="mailto:ricardolujan@example.com"
+                target="_blank"
+                class="text-gray-400 hover:text-indigo-400 transition-colors"
+                title="Email"
+              >
+                <FontAwesomeIcon :icon="faEnvelope" class="text-lg" />
+              </a>
+              <a
+                href="https://github.com/ricardolulo29-dot"
+                target="_blank"
+                class="text-gray-400 hover:text-indigo-400 transition-colors"
+                title="GitHub"
+              >
+                <FontAwesomeIcon :icon="faGithub" class="text-lg" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <!-- NAVBAR MOBILE (abajo) -->
     <nav
