@@ -41,6 +41,7 @@ const props = defineProps({
     type: Object,
     required: true,
     validator: value => {
+      console.log('Author recibido:', value)
       return value.username && value.fullName
     },
   },
