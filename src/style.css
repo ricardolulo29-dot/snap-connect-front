@@ -1,0 +1,37 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos personalizados para los toasts */
+.Vue-Toastification__toast {
+  @apply bg-gray-800 border border-indigo-500/30 backdrop-blur-xl shadow-2xl;
+}
+
+.Vue-Toastification__toast--success {
+  @apply bg-green-900/90 border-green-500/50;
+}
+
+.Vue-Toastification__toast--error {
+  @apply bg-red-900/90 border-red-500/50;
+}
+
+.Vue-Toastification__toast--warning {
+  @apply bg-yellow-900/90 border-yellow-500/50;
+}
+
+.Vue-Toastification__toast--info {
+  @apply bg-blue-900/90 border-blue-500/50;
+}
+
+.Vue-Toastification__toast-body {
+  @apply text-white;
+}
+
+.Vue-Toastification__progress-bar {
+  @apply bg-gradient-to-r from-indigo-500 to-purple-500;
+}
+
+.Vue-Toastification__close-button {
+  @apply text-white opacity-70 hover:opacity-100;
+}
