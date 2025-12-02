@@ -43,3 +43,8 @@ export const getUserImage = async userId => {
   const response = await httpClient.get(`${BASE_PATH}/${userId}/image`)
   return response.data
 }
+
+export const updateUserProfile = async (userId, updates) => {
+  const response = await httpClient.put(`${BASE_PATH}/${userId}/profile`, updates)
+  return response.data
+}

@@ -13,7 +13,8 @@ import {
 import PostGrid from '../components/PostGrid.vue'
 import UserList from '../components/UserList.vue'
 import EmptyState from '../components/EmptyState.vue'
-import { getUserProfile, updateUserImage } from '../api/users.api'
+import EditProfileModal from '../components/EditProfileModal.vue'
+import { getUserProfile, updateUserImage, updateUserProfile } from '../api/users.api'
 
 const userStore = useUserStore()
 
@@ -26,6 +27,7 @@ const selectedImage = ref(null)
 const imagePreview = ref(null)
 const fileInput = ref(null)
 const uploading = ref(false)
+const showEditProfileModal = ref(false)
 
 const likedPosts = ref([])
 const posts = ref([])
@@ -93,6 +95,36 @@ const saveImage = async () => {
   } finally {
     uploading.value = false
   }
+}
+
+const handleEditProfile = () => {
+  showEditProfileModal.value = true
+}
+
+const handleSaveProfile = async ({ userId, updates }) => {
+  try {
+    const updatedUser = await updateUserProfile(userId, updates)
+
+    // Actualizar los datos locales
+    if (updatedUser) {
+      profileData.value = { ...profileData.value, ...updatedUser }
+      // Actualizar el store
+      userStore.username = updatedUser.username
+      userStore.firstName = updatedUser.firstName
+      userStore.lastName = updatedUser.lastName
+      userStore.email = updatedUser.email
+    }
+
+    showEditProfileModal.value = false
+  } catch (error) {
+    console.error('Error al actualizar perfil:', error)
+    const errorMsg = error.response?.data?.message || error.message || 'Error desconocido'
+    alert(`Error al actualizar el perfil: ${errorMsg}`)
+  }
+}
+
+const closeEditProfileModal = () => {
+  showEditProfileModal.value = false
 }
 
 const tabs = [
@@ -186,6 +218,7 @@ onBeforeMount(async () => {
             <!-- Botón editar perfil -->
             <button
               v-if="activeTab === 'details'"
+              @click="handleEditProfile"
               class="mt-20 text-gray-300 px-4 py-2 rounded-lg hover:bg-indigo-600/20 hover:text-white transition-all flex items-center space-x-2 border border-gray-700 hover:border-indigo-500/30"
             >
               <FontAwesomeIcon :icon="faEdit" />
@@ -275,27 +308,6 @@ onBeforeMount(async () => {
               <label class="block text-gray-400 text-sm mb-2">Username</label>
               <div class="bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white">
                 @{{ profileData?.username || userStore.username || 'No especificado' }}
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-gray-400 text-sm mb-2">Teléfono</label>
-              <div class="bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white">
-                {{ profileData?.phone || userStore.phone || 'No especificado' }}
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-gray-400 text-sm mb-2">Ciudad</label>
-              <div class="bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white">
-                {{ profileData?.city || userStore.city || 'No especificado' }}
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-gray-400 text-sm mb-2">Cámara</label>
-              <div class="bg-gray-900/50 border border-gray-700 rounded-lg px-4 py-3 text-white">
-                {{ profileData?.camera || userStore.camera || 'No especificado' }}
               </div>
             </div>
           </div>
@@ -407,6 +419,20 @@ onBeforeMount(async () => {
         </div>
       </div>
     </div>
+
+    <!-- Modal de edición de perfil -->
+    <EditProfileModal
+      :show="showEditProfileModal"
+      :userId="userStore.id"
+      :initialData="{
+        username: profileData?.username || userStore.username,
+        firstName: profileData?.firstName || userStore.firstName,
+        lastName: profileData?.lastName || userStore.lastName,
+        email: profileData?.email || userStore.email,
+      }"
+      @close="closeEditProfileModal"
+      @save="handleSaveProfile"
+    />
   </div>
 </template>
 
