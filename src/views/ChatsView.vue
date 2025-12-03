@@ -1,7 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faSearch, faPaperPlane, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faPaperPlane, faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useUserStore } from '../store/user.store'
 import { useChat } from '../composables/useChat'
 import ProfileImage from '../components/ProfileImage.vue'
@@ -25,12 +25,14 @@ const {
   deselectChat,
   sendChatMessage,
   startChatWithUser,
+  deleteChatById,
   startChatsPolling,
   stopAllPolling,
 } = useChat()
 
 const searchQuery = ref('')
 const showUserSearch = ref(false)
+const messagesContainer = ref(null)
 
 // Filtrar usuarios seguidos para buscar
 const filteredFollowing = computed(() => {
@@ -47,6 +49,15 @@ const filteredFollowing = computed(() => {
 const handleSelectChat = async chat => {
   showUserSearch.value = false
   await selectChat(chat)
+  // Hacer scroll al final después de cargar los mensajes
+  await nextTick()
+  scrollToBottom()
+}
+
+// Hacer scroll al final del contenedor de mensajes
+const scrollToBottom = () => {
+  if (messagesContainer.value)
+    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
 }
 
 // Wrapper para crear chat con usuario
@@ -62,6 +73,9 @@ const handleStartChat = async user => {
 const handleSendMessage = async () => {
   try {
     await sendChatMessage()
+    // Hacer scroll al final después de enviar
+    await nextTick()
+    scrollToBottom()
   } catch {
     alert('Error al enviar el mensaje')
   }
@@ -70,6 +84,23 @@ const handleSendMessage = async () => {
 // Volver a la lista de chats (móvil)
 const backToChats = () => {
   deselectChat()
+}
+
+// Eliminar chat
+const handleDeleteChat = async () => {
+  if (!selectedChat.value) return
+
+  if (
+    confirm(
+      '¿Estás seguro de que quieres eliminar esta conversación? Esta acción no se puede deshacer.'
+    )
+  ) {
+    try {
+      await deleteChatById(selectedChat.value.id)
+    } catch {
+      alert('Error al eliminar el chat')
+    }
+  }
 }
 
 onMounted(() => {
@@ -86,7 +117,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="absolute inset-0 flex bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 overflow-hidden"
+    class="h-full flex bg-gradient-to-br from-gray-900 via-gray-800 to-indigo-900 overflow-hidden"
   >
     <!-- Sidebar de chats -->
     <div
@@ -188,32 +219,46 @@ onBeforeUnmount(() => {
       <template v-else>
         <!-- Header del chat -->
         <div
-          class="flex-shrink-0 p-4 bg-gray-800/50 backdrop-blur-xl border-b border-gray-700/50 flex items-center space-x-3"
+          class="flex-shrink-0 p-4 bg-gray-800/50 backdrop-blur-xl border-b border-gray-700/50 flex items-center justify-between"
         >
-          <button @click="backToChats" class="md:hidden text-gray-400 hover:text-white p-2 -ml-2">
-            <FontAwesomeIcon :icon="faArrowLeft" />
-          </button>
+          <div class="flex items-center space-x-3 flex-1 min-w-0">
+            <button
+              @click="backToChats"
+              class="md:hidden text-gray-400 hover:text-white p-2 -ml-2 flex-shrink-0"
+            >
+              <FontAwesomeIcon :icon="faArrowLeft" />
+            </button>
 
-          <ProfileImage
-            :firstName="selectedChat.participants[1]?.firstName"
-            :profileImage="selectedChat.participants[1]?.image"
-            class="flex-shrink-0"
-          />
-          <div>
-            <p class="text-white font-medium">
-              {{
-                getUserFullName(
-                  selectedChat.participants[1]?.firstName,
-                  selectedChat.participants[1]?.lastName
-                )
-              }}
-            </p>
-            <p class="text-gray-400 text-xs">@{{ selectedChat.participants[1]?.username }}</p>
+            <ProfileImage
+              :firstName="selectedChat.participants[1]?.firstName"
+              :profileImage="selectedChat.participants[1]?.image"
+              class="flex-shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <p class="text-white font-medium truncate">
+                {{
+                  getUserFullName(
+                    selectedChat.participants[1]?.firstName,
+                    selectedChat.participants[1]?.lastName
+                  )
+                }}
+              </p>
+              <p class="text-gray-400 text-xs truncate">
+                @{{ selectedChat.participants[1]?.username }}
+              </p>
+            </div>
           </div>
-        </div>
 
+          <button
+            @click="handleDeleteChat"
+            class="p-2 text-gray-400 hover:text-red-400 transition-colors rounded-lg hover:bg-gray-700/50 flex-shrink-0"
+            title="Eliminar chat"
+          >
+            <FontAwesomeIcon :icon="faTrash" />
+          </button>
+        </div>
         <!-- Mensajes -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-4 min-h-0">
+        <div ref="messagesContainer" class="flex-1 overflow-y-auto p-6 space-y-4 min-h-0">
           <div v-if="messages.length === 0" class="text-center py-8">
             <p class="text-gray-500">No hay mensajes aún</p>
             <p class="text-gray-600 text-sm">Envía un mensaje para comenzar</p>

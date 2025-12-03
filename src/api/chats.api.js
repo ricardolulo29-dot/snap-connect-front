@@ -27,3 +27,8 @@ export const markMessagesAsRead = async chatId => {
   const response = await httpClient.patch(`${END_POINT}/${chatId}/read`)
   return response.data
 }
+
+export const deleteChat = async chatId => {
+  const response = await httpClient.delete(`${END_POINT}/${chatId}`)
+  return response.data
+}

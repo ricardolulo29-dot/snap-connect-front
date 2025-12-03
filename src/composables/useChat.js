@@ -1,6 +1,12 @@
 import { ref, computed } from 'vue'
 import { useUserStore } from '../store/user.store'
-import { getChatMessages, sendMessage, createChat, markMessagesAsRead } from '../api/chats.api'
+import {
+  getChatMessages,
+  sendMessage,
+  createChat,
+  markMessagesAsRead,
+  deleteChat,
+} from '../api/chats.api'
 
 export function useChat() {
   const userStore = useUserStore()
@@ -25,9 +31,7 @@ export function useChat() {
   })
 
   // Obtener número de mensajes no leídos de un chat
-  const getUnreadCount = chat => {
-    return chat.unreadCount || 0
-  }
+  const getUnreadCount = chat => chat.unreadCount || 0
 
   // Cargar chats
   const loadChats = async () => {
@@ -66,7 +70,6 @@ export function useChat() {
       // Solo actualizar si hay mensajes nuevos
       if (newMessages.length > messages.value.length) {
         messages.value = newMessages
-        // Marcar como leídos automáticamente
         await markMessagesAsRead(selectedChat.value.id)
       }
     } catch (error) {
@@ -166,6 +169,29 @@ export function useChat() {
     return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
   }
 
+  // Eliminar un chat
+  const deleteChatById = async chatId => {
+    try {
+      await deleteChat(chatId)
+
+      // Eliminar del store
+      const index = userStore.chats.findIndex(c => c.id === chatId)
+      if (index !== -1) {
+        userStore.chats.splice(index, 1)
+      }
+
+      // Si el chat eliminado estaba seleccionado, deseleccionarlo
+      if (selectedChat.value?.id === chatId) {
+        deselectChat()
+      }
+
+      return true
+    } catch (error) {
+      console.error('Error al eliminar chat:', error)
+      throw error
+    }
+  }
+
   // Iniciar polling de mensajes
   const startMessagesPolling = () => {
     // Limpiar intervalo previo por seguridad
@@ -232,6 +258,7 @@ export function useChat() {
     sendChatMessage,
     startChatWithUser,
     formatMessageTime,
+    deleteChatById,
 
     // Polling methods
     startChatsPolling,
