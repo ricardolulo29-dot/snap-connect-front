@@ -15,6 +15,7 @@ import ProfileImage from './ProfileImage.vue'
 import CommentsSection from './CommentsSection.vue'
 import EditPostModal from './EditPostModal.vue'
 import { deletePost, editPostContent } from '../api/posts.api'
+import { formatDate } from '../utils/formaters'
 
 const userStore = useUserStore()
 
@@ -50,17 +51,27 @@ const props = defineProps({
     required: false,
     default: 0,
   },
+  commentsCount: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
   isLikedByUser: {
     type: Boolean,
     required: false,
     default: false,
+  },
+  createdAt: {
+    type: String,
+    required: false,
+    default: null,
   },
 })
 
 const localLikesCount = ref(props.likesCount)
 const localIsLiked = ref(props.isLikedByUser)
 const showComments = ref(false)
-const commentsCount = ref(0)
+const commentsCount = ref(props.commentsCount)
 const commentsSection = ref(null)
 const showMenu = ref(false)
 const showEditModal = ref(false)
@@ -181,7 +192,11 @@ onUnmounted(() => {
           <ProfileImage :firstName="author.fullName" :profileImage="author.profileImage" />
           <div>
             <p class="text-gray-200 font-medium text-sm">{{ author.fullName }}</p>
-            <p class="text-gray-500 text-xs">@{{ author.username }}</p>
+            <div class="flex items-center space-x-2">
+              <p class="text-gray-500 text-xs">@{{ author.username }}</p>
+              <span v-if="createdAt" class="text-gray-600 text-xs">•</span>
+              <p v-if="createdAt" class="text-gray-500 text-xs">{{ formatDate(createdAt) }}</p>
+            </div>
           </div>
         </div>
 

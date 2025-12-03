@@ -36,7 +36,9 @@ const handlePostEdited = ({ id, content }) => {
         profileImage: post.author.profileImage,
       }"
       :likesCount="post.likesCount"
+      :commentsCount="post.commentsCount"
       :isLikedByUser="post.isLikedByUser"
+      :createdAt="post.createdAt"
       @postDeleted="handlePostDeleted"
       @postEdited="handlePostEdited"
     />

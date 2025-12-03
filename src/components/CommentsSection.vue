@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -7,6 +7,7 @@ import { getPostComments, createComment, deleteComment } from '../api/posts.api'
 import { useUserStore } from '../store/user.store'
 import ProfileImage from './ProfileImage.vue'
 import { getUserFullName } from '../utils/formaters'
+import { formatDate } from '../utils/formaters'
 
 const userStore = useUserStore()
 
@@ -34,7 +35,13 @@ const sendingComment = ref(false)
 const hasLoadedComments = ref(false)
 const displayedComments = ref(5)
 
-// Cargar comentarios cuando se hace visible
+watch(
+  () => props.isVisible,
+  newValue => {
+    if (!newValue) displayedComments.value = 5
+  }
+)
+
 const loadComments = async () => {
   if (hasLoadedComments.value) return
 
@@ -52,43 +59,18 @@ const loadComments = async () => {
   }
 }
 
-// Función para formatear la fecha
-const formatDate = dateString => {
-  const date = new Date(dateString)
-  const now = new Date()
-  const diff = now - date
-
-  const minutes = Math.floor(diff / 60000)
-  const hours = Math.floor(diff / 3600000)
-  const days = Math.floor(diff / 86400000)
-
-  if (minutes < 1) return 'Ahora'
-  if (minutes < 60) return `${minutes}m`
-  if (hours < 24) return `${hours}h`
-  if (days < 7) return `${days}d`
-
-  return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })
-}
-
 // Función para cargar más comentarios
 const loadMoreComments = () => {
   displayedComments.value += 5
 }
 
 // Verificar si el usuario puede borrar el comentario
-const canDeleteComment = comment => {
-  // Puede borrar si es su comentario o si es el autor del post
-  console.log('userStore.id:', userStore.id)
-  console.log('comment.author.id:', comment.author.userId)
-  console.log('props.postAuthorId:', props.postAuthorId)
-  return comment.author.userId === userStore.id || props.postAuthorId === userStore.id
-}
+const canDeleteComment = comment =>
+  comment.author.userId === userStore.id || props.postAuthorId === userStore.id
 
-// Función para borrar comentario
 const handleDeleteComment = async commentId => {
   try {
     await deleteComment(props.postId, commentId)
-    // Eliminar el comentario de la lista local
     const index = comments.value.findIndex(c => c.id === commentId)
     if (index !== -1) {
       comments.value.splice(index, 1)
@@ -112,7 +94,6 @@ const handleSendComment = async () => {
     sendingComment.value = true
     const response = await createComment(props.postId, newComment.value)
 
-    // Añadir el comentario a la lista local
     comments.value.unshift({
       id: response.id,
       content: newComment.value,
