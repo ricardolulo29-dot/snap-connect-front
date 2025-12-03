@@ -3,8 +3,13 @@ import httpClient from './httpClient'
 const END_POINT = '/posts'
 
 export const createPost = async data => httpClient.post(`${END_POINT}`, data)
-export const fetchPosts = async () => {
-  const response = await httpClient.get(`${END_POINT}`)
+export const fetchPosts = async (tags = []) => {
+  const params = new URLSearchParams()
+  if (tags.length > 0) tags.forEach(tag => params.append('tags', tag))
+
+  const queryString = params.toString()
+  const url = queryString ? `${END_POINT}?${queryString}` : END_POINT
+  const response = await httpClient.get(url)
   return response.data
 }
 

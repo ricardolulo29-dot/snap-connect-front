@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
   faHeart as faHeartSolid,
@@ -19,7 +19,7 @@ import { formatDate } from '../utils/formaters'
 
 const userStore = useUserStore()
 
-const emit = defineEmits(['postDeleted', 'postEdited'])
+const emit = defineEmits(['postDeleted', 'postEdited', 'tagClicked'])
 
 const props = defineProps({
   id: {
@@ -155,6 +155,14 @@ const handleCommentsLoaded = count => {
   commentsCount.value = count
 }
 
+const formattedContent = computed(() => {
+  if (!localContent.value) return ''
+  return localContent.value.replace(
+    /#(\w+)/g,
+    '<span class="text-indigo-400 hover:text-indigo-300 cursor-pointer font-medium" data-tag="$1">#$1</span>'
+  )
+})
+
 // Cerrar el menú al hacer clic fuera
 const closeMenu = event => {
   if (showMenu.value && !event.target.closest('.relative')) {
@@ -169,6 +177,10 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', closeMenu)
 })
+
+const handleContentClick = event => {
+  if (event.target.dataset.tag) emit('tagClicked', event.target.dataset.tag)
+}
 </script>
 
 <template>
@@ -239,9 +251,11 @@ onUnmounted(() => {
       </h3>
 
       <!-- Contenido -->
-      <p class="text-gray-400 text-sm line-clamp-3 mb-4">
-        {{ localContent }}
-      </p>
+      <p
+        class="text-gray-400 text-sm line-clamp-3 mb-4"
+        v-html="formattedContent"
+        @click="handleContentClick"
+      ></p>
 
       <!-- Acciones -->
       <div

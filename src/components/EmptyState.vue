@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 defineProps({
   icon: {
     type: Object,
-    required: true,
+    required: false,
+    default: null,
   },
   message: {
     type: String,
@@ -15,7 +16,7 @@ defineProps({
 
 <template>
   <div class="text-center py-12">
-    <FontAwesomeIcon :icon="icon" class="text-6xl text-gray-600 mb-4" />
+    <FontAwesomeIcon v-if="icon" :icon="icon" class="text-6xl text-gray-600 mb-4" />
     <p class="text-gray-400">{{ message }}</p>
   </div>
 </template>

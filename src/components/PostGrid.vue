@@ -2,7 +2,7 @@
 import { getUserFullName } from '../utils/formaters'
 import PostComponent from './PostComponent.vue'
 
-const emit = defineEmits(['postDeleted', 'postEdited'])
+const emit = defineEmits(['postDeleted', 'postEdited', 'tagClicked'])
 
 defineProps({
   posts: {
@@ -17,6 +17,10 @@ const handlePostDeleted = postId => {
 
 const handlePostEdited = ({ id, content }) => {
   emit('postEdited', { id, content })
+}
+
+const handleTagClicked = tag => {
+  emit('tagClicked', tag)
 }
 </script>
 
@@ -41,6 +45,7 @@ const handlePostEdited = ({ id, content }) => {
       :createdAt="post.createdAt"
       @postDeleted="handlePostDeleted"
       @postEdited="handlePostEdited"
+      @tagClicked="handleTagClicked"
     />
   </div>
 </template>

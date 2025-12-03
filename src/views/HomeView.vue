@@ -2,8 +2,10 @@
 import { ref, onBeforeMount } from 'vue'
 import PostGrid from '../components/PostGrid.vue'
 import CreatePostModal from '../components/CreatePostModal.vue'
+import TagsFilter from '../components/TagsFilter.vue'
 import { useUserStore } from '../store/user.store'
 import { fetchPosts } from '../api/posts.api'
+import { getAllTags } from '../api/tags.api'
 
 const userStore = useUserStore()
 
@@ -11,6 +13,8 @@ const userStore = useUserStore()
 const showCreateModal = ref(false)
 const posts = ref([])
 const loading = ref(true)
+const tags = ref([])
+const selectedTags = ref([])
 
 const openCreateModal = () => {
   showCreateModal.value = true
@@ -67,8 +71,51 @@ const loadPosts = async () => {
   }
 }
 
+const loadTags = async () => {
+  try {
+    const tagsRes = await getAllTags()
+    tags.value = tagsRes || []
+  } catch (error) {
+    console.error('Error al cargar tags:', error)
+    tags.value = []
+  }
+}
+
+const addTagFilter = async tag => {
+  if (!selectedTags.value.includes(tag)) {
+    selectedTags.value.push(tag)
+    await loadFilteredPosts()
+  }
+}
+
+const removeTagFilter = async tag => {
+  const index = selectedTags.value.indexOf(tag)
+  if (index > -1) {
+    selectedTags.value.splice(index, 1)
+    await loadFilteredPosts()
+  }
+}
+
+const loadFilteredPosts = async () => {
+  try {
+    loading.value = true
+    const postsRes = await fetchPosts(selectedTags.value)
+    posts.value = postsRes || []
+  } catch (error) {
+    console.error('Error al cargar posts por tags:', error)
+    posts.value = []
+  } finally {
+    loading.value = false
+  }
+}
+
+const handleTagClicked = tag => {
+  addTagFilter(tag)
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 onBeforeMount(async () => {
-  await loadPosts()
+  await Promise.all([loadPosts(), loadTags()])
 })
 </script>
 
@@ -96,6 +143,14 @@ onBeforeMount(async () => {
           <span class="sm:hidden">Nuevo</span>
         </button>
       </div>
+
+      <!-- Tags filter -->
+      <TagsFilter
+        :tags="tags"
+        :selectedTags="selectedTags"
+        @tagAdded="addTagFilter"
+        @tagRemoved="removeTagFilter"
+      />
 
       <!-- Loading state -->
       <div v-if="loading" class="flex items-center justify-center py-20">
@@ -145,6 +200,7 @@ onBeforeMount(async () => {
         :posts="posts"
         @postDeleted="handlePostDeleted"
         @postEdited="handlePostEdited"
+        @tagClicked="handleTagClicked"
       />
     </div>
 
