@@ -4,27 +4,6 @@
 
 Este proyecto ha sido desarrollado como parte del **Ciclo Formativo de Grado Superior en Desarrollo de Aplicaciones Web (DAW)**, utilizando tecnologías modernas del ecosistema JavaScript.
 
----
-
-## 🚀 Características Principales
-
-- ✅ **Autenticación de usuarios** con JWT (JSON Web Tokens)
-- 📝 **Publicaciones con imágenes** - Crear, editar y eliminar posts
-- 🏷️ **Sistema de tags** - Filtrar publicaciones por etiquetas
-- ❤️ **Sistema de likes** en publicaciones
-- 💬 **Comentarios** en publicaciones con funcionalidad completa
-- 👥 **Sistema de seguimiento** (seguir/dejar de seguir usuarios)
-- 💌 **Chat privado** entre usuarios con mensajes persistentes
-- 📧 **Contador de mensajes no leídos** en tiempo real
-- 🔍 **Búsqueda de usuarios** por nombre o username
-- 👤 **Perfiles de usuario** con tabs (posts, likes, seguidores, seguidos)
-- ✏️ **Edición de perfil** completa (nombre, apellidos, email, username)
-- 🖼️ **Actualización de foto de perfil** con vista previa
-- 📱 **Diseño responsive** - Compatible con móviles, tablets y escritorio
-- 🎨 **Interfaz moderna** con gradientes, blur effects y animaciones
-
----
-
 ## 🛠️ Tecnologías Utilizadas
 
 ### Frontend
@@ -42,61 +21,6 @@ Este proyecto ha sido desarrollado como parte del **Ciclo Formativo de Grado Sup
 - **ESLint** - Linter para mantener código consistente
 - **PostCSS** - Procesamiento de CSS
 - **Autoprefixer** - Añade prefijos CSS automáticamente
-
----
-
-## 📁 Estructura del Proyecto
-
-```
-snapconnect-vue/
-├── public/              # Archivos estáticos
-├── src/
-│   ├── api/            # Servicios de API (axios)
-│   │   ├── auth.api.js
-│   │   ├── chats.api.js
-│   │   ├── posts.api.js
-│   │   ├── users.api.js
-│   │   └── httpClient.js
-│   ├── assets/         # Imágenes y recursos
-│   ├── components/     # Componentes reutilizables
-│   │   ├── ChatListItem.vue         # Item de lista de chats con preview
-│   │   ├── CommentsSection.vue      # Sección de comentarios con CRUD
-│   │   ├── CreatePostModal.vue      # Modal para crear posts con tags
-│   │   ├── EditPostModal.vue        # Modal para editar posts
-│   │   ├── EditProfileModal.vue     # Modal para editar perfil de usuario
-│   │   ├── EmptyChatState.vue       # Estado vacío para chats
-│   │   ├── EmptyState.vue           # Estado vacío genérico
-│   │   ├── MessageBubble.vue        # Burbuja de mensaje en chat
-│   │   ├── PostComponent.vue        # Componente de post con likes/comentarios
-│   │   ├── PostGrid.vue             # Grid de posts
-│   │   ├── ProfileImage.vue         # Imagen de perfil reutilizable
-│   │   ├── TagsFilter.vue           # Filtro de tags para posts
-│   │   └── UserList.vue             # Lista de usuarios (seguidores/seguidos)
-│   ├── composables/    # Lógica reutilizable
-│   │   └── useChat.js
-│   ├── store/          # Estado global (Pinia)
-│   │   └── user.store.js
-│   ├── utils/          # Funciones auxiliares
-│   │   └── formaters.js
-│   ├── views/          # Páginas/Vistas
-│   │   ├── ChatsView.vue
-│   │   ├── HomeView.vue
-│   │   ├── LoginView.vue
-│   │   ├── ProfileView.vue
-│   │   ├── SearchView.vue
-│   │   └── SignUpView.vue
-│   ├── App.vue         # Componente raíz
-│   ├── main.js         # Punto de entrada
-│   ├── router.js       # Configuración de rutas
-│   └── style.css       # Estilos globales
-├── .env                # Variables de entorno
-├── package.json        # Dependencias del proyecto
-├── vite.config.js      # Configuración de Vite
-├── tailwind.config.js  # Configuración de Tailwind
-└── eslint.config.js    # Configuración de ESLint
-```
-
----
 
 ## ⚙️ Instalación y Configuración
 
