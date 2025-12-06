@@ -111,7 +111,6 @@ const loadFilteredPosts = async () => {
 
 const handleTagClicked = tag => {
   addTagFilter(tag)
-  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 onBeforeMount(async () => {

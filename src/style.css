@@ -3,6 +3,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevenir scroll no deseado */
+* {
+  overscroll-behavior: none;
+}
+
+html,
+body {
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: pan-x pan-y;
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 /* Estilos personalizados para los toasts */
 .Vue-Toastification__toast {
   @apply bg-gray-800 border border-indigo-500/30 backdrop-blur-xl shadow-2xl;
