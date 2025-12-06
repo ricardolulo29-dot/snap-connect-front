@@ -158,7 +158,7 @@ watch(
     </header>
 
     <!-- CONTENT -->
-    <main class="pt-[60px] md:pt-[90px] pb-[70px] md:pb-0 flex-1 flex flex-col overflow-y-auto">
+    <main class="pt-[60px] md:pt-[90px] pb-[70px] md:pb-0 flex-1 overflow-y-auto min-h-0">
       <router-view />
     </main>
 

@@ -3,24 +3,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Prevenir scroll no deseado */
+/* Prevenir overscroll pero permitir scroll interno */
 * {
   overscroll-behavior: none;
 }
 
 html,
 body {
-  overflow: hidden;
   overscroll-behavior: none;
-  touch-action: pan-x pan-y;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 #app {
   height: 100%;
   width: 100%;
-  overflow: hidden;
 }
 
 /* Estilos personalizados para los toasts */

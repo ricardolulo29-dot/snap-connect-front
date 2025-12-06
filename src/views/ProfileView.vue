@@ -165,7 +165,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen py-8">
+  <div class="min-h-full py-8 pb-16">
     <!-- Input file oculto -->
     <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="onFileSelected" />
 
@@ -254,15 +254,15 @@ onBeforeMount(async () => {
 
       <!-- Tabs de navegación -->
       <div
-        class="bg-gray-800/50 backdrop-blur-xl border border-indigo-500/30 rounded-2xl p-2 mb-8 shadow-lg"
+        class="bg-gray-800/50 backdrop-blur-xl border border-indigo-500/30 rounded-2xl p-2 mb-8 shadow-lg overflow-x-auto"
       >
-        <div class="flex flex-wrap gap-2">
+        <div class="flex gap-2 min-w-max sm:min-w-0">
           <button
             v-for="tab in tabs"
             :key="tab.id"
             @click="activeTab = tab.id"
             :class="[
-              'flex-1 min-w-[140px] flex items-center justify-center space-x-2 px-4 py-3 rounded-lg transition-all duration-200',
+              'flex-1 sm:min-w-[140px] flex items-center justify-center space-x-2 px-4 py-3 rounded-lg transition-all duration-200 whitespace-nowrap',
               activeTab === tab.id
                 ? 'bg-indigo-600 text-white shadow-lg'
                 : 'text-gray-400 hover:text-white hover:bg-gray-700/50',
