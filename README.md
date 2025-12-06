@@ -10,13 +10,18 @@ Este proyecto ha sido desarrollado como parte del **Ciclo Formativo de Grado Sup
 
 - ✅ **Autenticación de usuarios** con JWT (JSON Web Tokens)
 - 📝 **Publicaciones con imágenes** - Crear, editar y eliminar posts
+- 🏷️ **Sistema de tags** - Filtrar publicaciones por etiquetas
 - ❤️ **Sistema de likes** en publicaciones
-- 💬 **Comentarios** en publicaciones
+- 💬 **Comentarios** en publicaciones con funcionalidad completa
 - 👥 **Sistema de seguimiento** (seguir/dejar de seguir usuarios)
-- 💌 **Chat en tiempo real** entre usuarios
-- 🔍 **Búsqueda de usuarios**
+- 💌 **Chat privado** entre usuarios con mensajes persistentes
+- 📧 **Contador de mensajes no leídos** en tiempo real
+- 🔍 **Búsqueda de usuarios** por nombre o username
+- 👤 **Perfiles de usuario** con tabs (posts, likes, seguidores, seguidos)
+- ✏️ **Edición de perfil** completa (nombre, apellidos, email, username)
+- 🖼️ **Actualización de foto de perfil** con vista previa
 - 📱 **Diseño responsive** - Compatible con móviles, tablets y escritorio
-- 🎨 **Interfaz moderna** con gradientes y efectos visuales
+- 🎨 **Interfaz moderna** con gradientes, blur effects y animaciones
 
 ---
 
@@ -54,14 +59,19 @@ snapconnect-vue/
 │   │   └── httpClient.js
 │   ├── assets/         # Imágenes y recursos
 │   ├── components/     # Componentes reutilizables
-│   │   ├── ChatListItem.vue
-│   │   ├── CommentsSection.vue
-│   │   ├── CreatePostModal.vue
-│   │   ├── EditPostModal.vue
-│   │   ├── MessageBubble.vue
-│   │   ├── PostComponent.vue
-│   │   ├── PostGrid.vue
-│   │   └── ProfileImage.vue
+│   │   ├── ChatListItem.vue         # Item de lista de chats con preview
+│   │   ├── CommentsSection.vue      # Sección de comentarios con CRUD
+│   │   ├── CreatePostModal.vue      # Modal para crear posts con tags
+│   │   ├── EditPostModal.vue        # Modal para editar posts
+│   │   ├── EditProfileModal.vue     # Modal para editar perfil de usuario
+│   │   ├── EmptyChatState.vue       # Estado vacío para chats
+│   │   ├── EmptyState.vue           # Estado vacío genérico
+│   │   ├── MessageBubble.vue        # Burbuja de mensaje en chat
+│   │   ├── PostComponent.vue        # Componente de post con likes/comentarios
+│   │   ├── PostGrid.vue             # Grid de posts
+│   │   ├── ProfileImage.vue         # Imagen de perfil reutilizable
+│   │   ├── TagsFilter.vue           # Filtro de tags para posts
+│   │   └── UserList.vue             # Lista de usuarios (seguidores/seguidos)
 │   ├── composables/    # Lógica reutilizable
 │   │   └── useChat.js
 │   ├── store/          # Estado global (Pinia)
@@ -207,8 +217,6 @@ Gestiona toda la lógica relacionada con el sistema de mensajería:
 - Marcar mensajes como leídos
 - Crear nuevas conversaciones
 
----
-
 ## 🎨 Diseño y Estilos
 
 - **TailwindCSS**: Utility-first CSS framework para estilos rápidos y consistentes
@@ -217,54 +225,6 @@ Gestiona toda la lógica relacionada con el sistema de mensajería:
 - **Efectos hover**: Transiciones suaves y escalado en elementos interactivos
 - **Blur y transparencias**: Efectos de backdrop-blur para modales y overlays
 
----
+## 👩‍💻 Autor
 
-## 🐛 Problemas Encontrados y Soluciones
-
-### 1. **Gestión de mensajes no leídos**
-
-- **Problema**: Sincronizar el contador de mensajes no leídos entre diferentes componentes
-- **Solución**: Usar Pinia store para mantener un estado global y actualizarlo al marcar mensajes como leídos
-
-### 2. **Actualización en tiempo real del feed**
-
-- **Problema**: Cuando se crea una publicación, no aparece inmediatamente en el feed
-- **Solución**: Usar eventos (`emit`) para notificar al componente padre y actualizar la lista localmente
-
-### 3. **Validación de imágenes**
-
-- **Problema**: Usuarios podían enviar publicaciones sin imagen
-- **Solución**: Validación en el frontend antes de enviar el formulario
-
-### 4. **Responsive del chat**
-
-- **Problema**: En móvil, mostrar lista de chats y conversación simultáneamente
-- **Solución**: Usar clases condicionales de Tailwind para ocultar/mostrar elementos según el breakpoint
-
----
-
-## 📚 Aprendizajes Clave
-
-Durante el desarrollo de este proyecto he aprendido:
-
-- ✅ Arquitectura de componentes en Vue 3 con Composition API
-- ✅ Gestión de estado global con Pinia
-- ✅ Autenticación basada en tokens JWT
-- ✅ Consumo de APIs REST con Axios e interceptores
-- ✅ Routing con protección de rutas
-- ✅ Diseño responsive con TailwindCSS
-- ✅ Optimización de renders y rendimiento
-- ✅ Manejo de formularios y validación
-
----
-
-## 🚧 Posibles Mejoras Futuras
-
-- [ ] Implementar WebSockets para mensajería en tiempo real
-- [ ] Añadir notificaciones push
-- [ ] Sistema de historias (stories) tipo Instagram
-- [ ] Subida de videos además de imágenes
-- [ ] Modo oscuro/claro
-- [ ] Internacionalización (i18n)
-- [ ] Tests unitarios y de integración
-- [ ] PWA (Progressive Web App)
+Ricardo Luján Lorés
