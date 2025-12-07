@@ -21,14 +21,12 @@ const props = defineProps({
 const emit = defineEmits(['select'])
 
 // Obtener el otro participante del chat (no el usuario actual)
-const otherParticipant = computed(() => {
-  return props.chat.participants?.find(p => p.id !== props.currentUserId) || {}
-})
+const otherParticipant = computed(
+  () => props.chat.participants?.find(p => p.id !== props.currentUserId) || {}
+)
 
-// Número de mensajes no leídos
-const unreadCount = computed(() => {
-  return props.chat.unreadCount || 0
-})
+// Devuelve el numero de mensajes no leídos
+const unreadCount = computed(() => props.chat.unreadCount || 0)
 
 const handleClick = () => {
   emit('select', props.chat)
@@ -51,7 +49,7 @@ const handleClick = () => {
           :profileImage="otherParticipant.image"
           class="flex-shrink-0"
         />
-        <!-- Indicador de mensajes no leídos (punto rojo) -->
+        <!-- Indicador de mensajes no leídos -->
         <div
           v-if="unreadCount > 0"
           class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-gray-800"

@@ -48,7 +48,7 @@ const loadComments = async () => {
   try {
     loadingComments.value = true
     const response = await getPostComments(props.postId)
-    // Ordenar de más nuevo a más viejo
+
     comments.value = response.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     hasLoadedComments.value = true
     emit('commentsLoaded', comments.value.length)

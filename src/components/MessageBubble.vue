@@ -12,12 +12,8 @@ const props = defineProps({
   },
 })
 
-// Determinar si el mensaje es del usuario actual
-const isOwn = computed(() => {
-  return props.message.senderId === props.currentUserId
-})
+const isOwn = computed(() => props.message.senderId === props.currentUserId)
 
-// Formatear hora del mensaje
 const formatTime = dateString => {
   const date = new Date(dateString)
   return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })

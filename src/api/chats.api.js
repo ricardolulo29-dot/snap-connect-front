@@ -8,7 +8,6 @@ export const getChats = async () => {
 }
 
 export const getChatMessages = async chatId => {
-  console.log('Fetching messages for chatId:', chatId)
   const response = await httpClient.get(`${END_POINT}/${chatId}/messages`)
   return response.data
 }

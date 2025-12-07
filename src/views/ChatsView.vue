@@ -45,22 +45,18 @@ const filteredFollowing = computed(() => {
   )
 })
 
-// Wrapper para seleccionar chat y cerrar búsqueda
 const handleSelectChat = async chat => {
   showUserSearch.value = false
   await selectChat(chat)
-  // Hacer scroll al final después de cargar los mensajes
   await nextTick()
   scrollToBottom()
 }
 
-// Hacer scroll al final del contenedor de mensajes
 const scrollToBottom = () => {
   if (messagesContainer.value)
     messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
 }
 
-// Wrapper para crear chat con usuario
 const handleStartChat = async user => {
   try {
     await startChatWithUser(user)
@@ -69,11 +65,9 @@ const handleStartChat = async user => {
   }
 }
 
-// Wrapper para enviar mensaje
 const handleSendMessage = async () => {
   try {
     await sendChatMessage()
-    // Hacer scroll al final después de enviar
     await nextTick()
     scrollToBottom()
   } catch {
@@ -81,12 +75,10 @@ const handleSendMessage = async () => {
   }
 }
 
-// Volver a la lista de chats (móvil)
 const backToChats = () => {
   deselectChat()
 }
 
-// Eliminar chat
 const handleDeleteChat = async () => {
   if (!selectedChat.value) return
 
@@ -105,11 +97,9 @@ const handleDeleteChat = async () => {
 
 onMounted(() => {
   loadChats()
-  // Iniciar polling para actualizar lista de chats en segundo plano
   startChatsPolling()
 })
 
-// Limpiar intervalos al salir de la vista
 onBeforeUnmount(() => {
   stopAllPolling()
 })

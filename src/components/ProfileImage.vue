@@ -10,10 +10,7 @@ const props = defineProps({
   },
 })
 
-const getUserInitial = () => {
-  console.log(props.profileImage)
-  return props.firstName?.charAt(0)?.toUpperCase() || 'U'
-}
+const getUserInitial = () => props.firstName?.charAt(0)?.toUpperCase() || 'U'
 </script>
 <template>
   <div

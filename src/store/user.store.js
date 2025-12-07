@@ -3,7 +3,6 @@ import { getUserFollowers, getUserFollowing } from '@/api/users.api.js'
 import { getChats } from '@/api/chats.api.js'
 
 export const useUserStore = defineStore('user', {
-  // Estado de la store: aquí se almacenan los datos del usuario
   state: () => ({
     id: null,
     firstName: '',
@@ -18,7 +17,6 @@ export const useUserStore = defineStore('user', {
     exp: null,
   }),
 
-  // Getters para obtener datos derivados
   getters: {
     fullName(state) {
       return `${state.firstName} ${state.lastName}`
@@ -28,7 +26,6 @@ export const useUserStore = defineStore('user', {
     },
   },
 
-  // Acciones para actualizar el estado
   actions: {
     setUser(userData) {
       this.id = userData.id
@@ -69,7 +66,6 @@ export const useUserStore = defineStore('user', {
     setUserImage(image) {
       this.image = image
     },
-    // Función para limpiar los datos de la store
     clearUser() {
       this.id = null
       this.firstName = ''

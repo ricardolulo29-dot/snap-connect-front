@@ -17,18 +17,17 @@ export function useChat() {
   const loading = ref(true)
   const sendingMessage = ref(false)
 
-  // Variables para el polling
   let messagesPollingInterval = null
   let chatsPollingInterval = null
-  const MESSAGES_POLLING_INTERVAL = 3000 // Consultar cada 3 segundos
-  const CHATS_POLLING_INTERVAL = 5000 // Consultar lista de chats cada 5 segundos
+  const MESSAGES_POLLING_INTERVAL = 3000
+  const CHATS_POLLING_INTERVAL = 5000
 
   // Computed properties
   const chats = computed(() => userStore.chats)
 
-  const totalUnreadCount = computed(() => {
-    return chats.value.reduce((total, chat) => total + (chat.unreadCount || 0), 0)
-  })
+  const totalUnreadCount = computed(() =>
+    chats.value.reduce((total, chat) => total + (chat.unreadCount || 0), 0)
+  )
 
   // Obtener número de mensajes no leídos de un chat
   const getUnreadCount = chat => chat.unreadCount || 0
@@ -107,9 +106,7 @@ export function useChat() {
 
   // Enviar un mensaje
   const sendChatMessage = async () => {
-    if (!newMessage.value.trim() || !selectedChat.value) {
-      return
-    }
+    if (!newMessage.value.trim() || !selectedChat.value) return
 
     try {
       sendingMessage.value = true
@@ -194,7 +191,6 @@ export function useChat() {
 
   // Iniciar polling de mensajes
   const startMessagesPolling = () => {
-    // Limpiar intervalo previo por seguridad
     stopMessagesPolling()
 
     // Configurar nuevo intervalo
@@ -238,18 +234,13 @@ export function useChat() {
   }
 
   return {
-    // State
     selectedChat,
     messages,
     newMessage,
     loading,
     sendingMessage,
     chats,
-
-    // Computed
     totalUnreadCount,
-
-    // Methods
     getUnreadCount,
     loadChats,
     loadMessages,
@@ -259,8 +250,6 @@ export function useChat() {
     startChatWithUser,
     formatMessageTime,
     deleteChatById,
-
-    // Polling methods
     startChatsPolling,
     stopChatsPolling,
     stopAllPolling,

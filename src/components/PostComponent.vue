@@ -103,7 +103,7 @@ const closeEditModal = () => {
   showEditModal.value = false
 }
 
-const handleDelete = async () => {
+const handleDeletePost = async () => {
   if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
     try {
       showMenu.value = false
@@ -264,7 +264,7 @@ const closeImageModal = () => {
               <span>Editar</span>
             </button>
             <button
-              @click="handleDelete"
+              @click="handleDeletePost"
               class="w-full text-left px-4 py-3 text-gray-300 hover:bg-gray-800 transition-colors flex items-center space-x-3 rounded-b-lg"
             >
               <FontAwesomeIcon :icon="faTrash" class="text-red-400" />

@@ -49,15 +49,6 @@ watch(
 const validateForm = () => {
   errors.value = {}
 
-  if (!formData.value.username || formData.value.username.trim().length < 3)
-    errors.value.username = 'El nombre de usuario debe tener al menos 3 caracteres'
-
-  if (!formData.value.firstName || formData.value.firstName.trim().length < 2)
-    errors.value.firstName = 'El nombre debe tener al menos 2 caracteres'
-
-  if (!formData.value.lastName || formData.value.lastName.trim().length < 2)
-    errors.value.lastName = 'El apellido debe tener al menos 2 caracteres'
-
   if (!formData.value.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value.email))
     errors.value.email = 'El email no es válido'
 
