@@ -27,11 +27,8 @@ const sortedUsers = computed(() => {
     // No mostrar al usuario logueado
     if (user.id === userStore.id) return
 
-    if (followedIds.has(user.id)) {
-      followed.push(user)
-    } else {
-      notFollowed.push(user)
-    }
+    if (followedIds.has(user.id)) followed.push(user)
+    else notFollowed.push(user)
   })
 
   // Ordenar ambos grupos alfabéticamente por nombre completo
@@ -44,7 +41,6 @@ const sortedUsers = computed(() => {
   followed.sort(sortAlphabetically)
   notFollowed.sort(sortAlphabetically)
 
-  // Combinar: seguidos primero, luego no seguidos
   return [...followed, ...notFollowed]
 })
 

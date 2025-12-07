@@ -35,15 +35,11 @@ const posts = ref([])
 const handlePostDeleted = postId => {
   // Eliminar el post de la lista local
   const postIndex = posts.value.findIndex(post => post.id === postId)
-  if (postIndex !== -1) {
-    posts.value.splice(postIndex, 1)
-  }
+  if (postIndex !== -1) posts.value.splice(postIndex, 1)
 
   // También eliminar de los posts con like si está ahí
   const likedIndex = likedPosts.value.findIndex(post => post.id === postId)
-  if (likedIndex !== -1) {
-    likedPosts.value.splice(likedIndex, 1)
-  }
+  if (likedIndex !== -1) likedPosts.value.splice(likedIndex, 1)
 }
 
 const handleImageEdit = () => {
@@ -67,9 +63,7 @@ const closeModal = () => {
   showImageModal.value = false
   selectedImage.value = null
   imagePreview.value = null
-  if (fileInput.value) {
-    fileInput.value.value = ''
-  }
+  if (fileInput.value) fileInput.value.value = ''
 }
 
 const saveImage = async () => {
@@ -82,9 +76,7 @@ const saveImage = async () => {
     // Actualizar la imagen en el store y en profileData
     if (response) {
       userStore.image = imagePreview.value
-      if (profileData.value) {
-        profileData.value.profileImage = imagePreview.value
-      }
+      if (profileData.value) profileData.value.profileImage = imagePreview.value
     }
 
     closeModal()

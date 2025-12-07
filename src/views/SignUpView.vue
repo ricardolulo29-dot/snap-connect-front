@@ -28,11 +28,6 @@ const validateForm = () => {
     return false
   }
 
-  if (formData.value.username.length < 3) {
-    error.value = 'El nombre de usuario debe tener al menos 3 caracteres'
-    return false
-  }
-
   if (!formData.value.email.includes('@')) {
     error.value = 'Por favor ingresa un email válido'
     return false
