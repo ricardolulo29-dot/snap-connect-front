@@ -98,10 +98,7 @@ onBeforeMount(() => {
               >
             </label>
 
-            <router-link
-              to="/forgot-password"
-              class="text-indigo-400 text-sm hover:text-indigo-300 transition-colors"
-            >
+            <router-link class="text-gray-400 text-sm hover:text-indigo-300 transition-colors">
               ¿Olvidaste tu contraseña?
             </router-link>
           </div>
