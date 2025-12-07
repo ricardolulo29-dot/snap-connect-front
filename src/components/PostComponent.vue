@@ -76,6 +76,7 @@ const commentsSection = ref(null)
 const showMenu = ref(false)
 const showEditModal = ref(false)
 const localContent = ref(props.content)
+const showImageModal = ref(false)
 
 const isOwner = () => props.author.id === userStore.id
 const toggleMenu = () => {
@@ -181,6 +182,14 @@ onUnmounted(() => {
 const handleContentClick = event => {
   if (event.target.dataset.tag) emit('tagClicked', event.target.dataset.tag)
 }
+
+const openImageModal = () => {
+  showImageModal.value = true
+}
+
+const closeImageModal = () => {
+  showImageModal.value = false
+}
 </script>
 
 <template>
@@ -188,12 +197,32 @@ const handleContentClick = event => {
     class="bg-gray-800/50 backdrop-blur-xl border border-indigo-500/20 rounded-2xl overflow-hidden hover:border-indigo-500/40 transition-all duration-300 shadow-lg hover:shadow-indigo-500/20"
   >
     <!-- Imagen del post -->
-    <div class="relative h-64 overflow-hidden bg-gray-900">
+    <div
+      class="relative h-64 overflow-hidden bg-gray-900 cursor-pointer group"
+      @click="openImageModal"
+    >
       <img
         :src="image"
         :alt="title"
-        class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />
+      <div
+        class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center"
+      >
+        <svg
+          class="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"
+          />
+        </svg>
+      </div>
     </div>
 
     <!-- Contenido del post -->
@@ -301,6 +330,29 @@ const handleContentClick = event => {
       @close="closeEditModal"
       @save="handleSaveEdit"
     />
+
+    <!-- Modal de imagen completa -->
+    <div
+      v-if="showImageModal"
+      class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      @click="closeImageModal"
+    >
+      <button
+        @click="closeImageModal"
+        class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors p-2 rounded-full bg-black/50 hover:bg-black/70"
+        title="Cerrar"
+      >
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+      <img :src="image" :alt="title" class="max-h-[90vh] max-w-full object-contain" @click.stop />
+    </div>
   </article>
 </template>
 
