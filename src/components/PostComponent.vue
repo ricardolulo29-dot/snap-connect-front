@@ -334,12 +334,12 @@ const closeImageModal = () => {
     <!-- Modal de imagen completa -->
     <div
       v-if="showImageModal"
-      class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+      class="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center"
       @click="closeImageModal"
     >
       <button
         @click="closeImageModal"
-        class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors p-2 rounded-full bg-black/50 hover:bg-black/70"
+        class="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors p-2 rounded-full bg-black/50 hover:bg-black/70 z-10"
         title="Cerrar"
       >
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -351,7 +351,9 @@ const closeImageModal = () => {
           />
         </svg>
       </button>
-      <img :src="image" :alt="title" class="max-h-[90vh] max-w-full object-contain" @click.stop />
+      <div class="w-full h-full flex items-center justify-center p-4">
+        <img :src="image" :alt="title" class="max-w-full max-h-full object-contain" @click.stop />
+      </div>
     </div>
   </article>
 </template>
