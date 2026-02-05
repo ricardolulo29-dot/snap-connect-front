@@ -24,7 +24,7 @@ const closeCreateModal = () => {
   showCreateModal.value = false
 }
 
-const handleCreatePost = postData => {
+const handleCreatePost = async postData => {
   const post = {
     id: posts.value.length + 1,
     title: postData.title,
@@ -39,6 +39,7 @@ const handleCreatePost = postData => {
   }
 
   posts.value.unshift(post) // Añadir al inicio
+  await loadTags() // Recargar tags para incluir los nuevos
 }
 
 const handlePostDeleted = postId => {
