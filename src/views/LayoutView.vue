@@ -31,11 +31,6 @@ const logout = () => {
   router.push({ name: 'login' })
 }
 
-const goToProfile = () => {
-  router.push({ name: 'profile' })
-  if (route.name === 'profile') setTimeout(() => router.go(0), 100)
-}
-
 onBeforeMount(async () => {
   if (!localStorage.getItem('token')) {
     router.push({ name: 'login' })
@@ -123,7 +118,12 @@ watch(
 
         <!-- DESKTOP MENU -->
         <nav class="flex items-center space-x-2">
-          <router-link to="/" class="nav-btn">
+          <router-link
+            to="/"
+            active-class=""
+            exact-active-class="router-link-active"
+            class="nav-btn"
+          >
             <FontAwesomeIcon :icon="faHome" />
             <span>Home</span>
           </router-link>
@@ -146,9 +146,9 @@ watch(
 
           <div class="w-px h-8 bg-gray-600 mx-2"></div>
 
-          <a @click="goToProfile()" class="nav-btn-icon cursor-pointer" title="Profile">
+          <router-link to="/profile" class="nav-btn-icon cursor-pointer" title="Profile">
             <FontAwesomeIcon :icon="faUser" />
-          </a>
+          </router-link>
 
           <a @click="logout()" class="nav-btn-icon" title="Logout">
             <FontAwesomeIcon :icon="faSignOutAlt" />
@@ -199,7 +199,12 @@ watch(
       class="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-gray-900/95 backdrop-blur-lg border-t border-indigo-500/30 shadow-2xl"
     >
       <div class="flex items-center justify-around px-4 py-3">
-        <router-link to="/" class="mobile-nav-btn">
+        <router-link
+          to="/"
+          active-class=""
+          exact-active-class="router-link-active"
+          class="mobile-nav-btn"
+        >
           <FontAwesomeIcon :icon="faHome" class="text-xl" />
           <span class="text-xs mt-1">Home</span>
         </router-link>
@@ -220,10 +225,10 @@ watch(
           </div>
         </router-link>
 
-        <a @click="goToProfile()" class="mobile-nav-btn cursor-pointer">
+        <router-link to="/profile" class="mobile-nav-btn cursor-pointer">
           <FontAwesomeIcon :icon="faUser" class="text-xl" />
           <span class="text-xs mt-1">Perfil</span>
-        </a>
+        </router-link>
 
         <a @click="logout()" class="mobile-nav-btn cursor-pointer">
           <FontAwesomeIcon :icon="faSignOutAlt" class="text-xl" />
@@ -240,9 +245,17 @@ watch(
          transition-all duration-200 hover:bg-indigo-600/20 hover:text-white cursor-pointer;
 }
 
+.nav-btn.router-link-active {
+  @apply bg-indigo-600/30 text-white;
+}
+
 .nav-btn-icon {
   @apply flex items-center justify-center w-10 h-10 rounded-lg text-gray-300
-         transition-all duration-200 hover:bg-gray-700/50 hover:text-white cursor-pointer;
+         transition-all duration-200 hover:bg-indigo-600/20 hover:text-white cursor-pointer;
+}
+
+.nav-btn-icon.router-link-active {
+  @apply bg-indigo-600/30 text-white;
 }
 
 .mobile-nav-btn {
@@ -251,6 +264,6 @@ watch(
 }
 
 .mobile-nav-btn.router-link-active {
-  @apply text-indigo-400;
+  @apply text-indigo-400 scale-110;
 }
 </style>
