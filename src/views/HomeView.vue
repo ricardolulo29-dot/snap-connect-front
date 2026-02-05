@@ -62,7 +62,6 @@ const loadPosts = async () => {
     loading.value = true
     const postsRes = await fetchPosts()
     posts.value = postsRes || []
-    console.log('Posts cargados:', posts.value)
   } catch (error) {
     console.error('Error al cargar posts:', error)
     posts.value = []

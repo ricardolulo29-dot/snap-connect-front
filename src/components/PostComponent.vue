@@ -36,15 +36,13 @@ const props = defineProps({
   },
   content: {
     type: String,
-    required: true,
+    required: false,
+    default: '',
   },
   author: {
     type: Object,
     required: true,
-    validator: value => {
-      console.log('Author recibido:', value)
-      return value.username && value.fullName
-    },
+    validator: value => value.username && value.fullName,
   },
   likesCount: {
     type: Number,

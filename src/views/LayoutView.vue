@@ -32,7 +32,7 @@ const logout = () => {
 }
 
 const goToProfile = () => {
-  router.push({ name: 'profile', params: { id: userStore.id } })
+  router.push({ name: 'profile' })
   if (route.name === 'profile') setTimeout(() => router.go(0), 100)
 }
 
