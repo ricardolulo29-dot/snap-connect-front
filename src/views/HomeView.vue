@@ -50,12 +50,14 @@ const handlePostDeleted = postId => {
   }
 }
 
-const handlePostEdited = ({ id, content }) => {
+const handlePostEdited = async ({ id, content }) => {
   // Actualizar el contenido del post en la lista local
   const post = posts.value.find(post => post.id === id)
   if (post) {
     post.content = content
   }
+  // Recargar tags para incluir los nuevos
+  await loadTags()
 }
 
 const loadPosts = async () => {
